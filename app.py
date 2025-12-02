@@ -1,13 +1,19 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import google.generativeai as genai
 import os
 
 app = FastAPI()
 
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+# Load API key from Railway environment variable
+api_key = os.getenv("GEMINI_API_KEY")
 
-# NEW MODEL THAT IS GUARANTEED TO WORK
+if not api_key:
+    raise Exception("GEMINI_API_KEY environment variable not set in Railway!")
+
+genai.configure(api_key=api_key)
+
+# Correct Gemini model name for current stable API
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 class PromptRequest(BaseModel):
@@ -15,5 +21,12 @@ class PromptRequest(BaseModel):
 
 @app.post("/ai")
 def ai_response(req: PromptRequest):
-    response = model.generate_content(req.prompt)
-    return {"reply": response.text}
+    try:
+        result = model.generate_content(req.prompt)
+        return {"reply": result.text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/")
+def health():
+    return {"status": "ok"}
