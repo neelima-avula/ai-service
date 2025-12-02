@@ -5,10 +5,10 @@ import os
 
 app = FastAPI()
 
-# Load Gemini Key
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# Configure Gemini with API Key
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-pro")  # works everywhere
 
 class PromptRequest(BaseModel):
     prompt: str
