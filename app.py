@@ -1,27 +1,34 @@
-import os
 from fastapi import FastAPI
 from pydantic import BaseModel
-from openai import OpenAI
+import requests
+import os
 
 app = FastAPI()
 
-# 🔥 Read your API key from environment variable
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-# 🔥 Create OpenAI client using the key
-client = OpenAI(api_key=OPENAI_API_KEY)
+XAI_API_KEY = os.getenv("XAI_API_KEY")
+XAI_URL = "https://api.x.ai/v1/chat/completions"
 
 class PromptRequest(BaseModel):
     prompt: str
 
-@app.post("/ai")
-def ai_response(req: PromptRequest):
-    completion = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
+@app.post("/ai-grok")
+def ai_grok(req: PromptRequest):
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {XAI_API_KEY}"
+    }
+
+    body = {
+        "model": "grok-2",      # or grok-beta
+        "messages": [
             {"role": "user", "content": req.prompt}
         ]
-    )
+    }
 
-    result = completion.choices[0].message["content"]
-    return {"reply": result}
+    res = requests.post(XAI_URL, headers=headers, json=body)
+
+    if res.status_code != 200:
+        return {"error": res.json()}
+
+    reply = res.json()["choices"][0]["message"]["content"]
+    return {"reply": reply}
