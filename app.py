@@ -19,4 +19,7 @@ def ai_response(req: PromptRequest):
         ]
     )
 
-    return {"reply": completion.choices[0].message.content[0].text}
+    # CORRECT RESPONSE PARSING
+    reply = completion.choices[0].message.content
+
+    return {"reply": reply}
