@@ -7,8 +7,7 @@ app = FastAPI()
 
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
-# Use model that works on ALL APIs
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-pro")
 
 class PromptRequest(BaseModel):
     prompt: str
