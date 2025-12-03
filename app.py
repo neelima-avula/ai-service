@@ -1,18 +1,34 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import google.generativeai as genai
 import os
+import requests
 
 app = FastAPI()
 
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+API_KEY = os.environ["GEMINI_API_KEY"]
+MODEL = "gemini-1.5-flash"  # FREE MODEL
 
-model = genai.GenerativeModel("gemini-pro")
 
 class PromptRequest(BaseModel):
     prompt: str
 
+
 @app.post("/ai")
 def ai_response(req: PromptRequest):
-    response = model.generate_content(req.prompt)
-    return {"reply": response.text}
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={API_KEY}"
+
+    payload = {
+        "contents": [
+            {"parts": [{"text": req.prompt}]}
+        ]
+    }
+
+    response = requests.post(url, json=payload)
+
+    if response.status_code != 200:
+        return {"error": response.json()}
+
+    data = response.json()
+    reply = data["candidates"][0]["content"]["parts"][0]["text"]
+
+    return {"reply": reply}
