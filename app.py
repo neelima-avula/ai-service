@@ -8,7 +8,7 @@ app = FastAPI()
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 RESTAURANT_CONTEXT = """
-You are an AI assistant for **Veg Spice Restaurant**.
+You are an AI assistant for **Lotus Veg Restaurant**.
 
 Business Details:
 - Location: 123 Park Road, Charlotte, NC
