@@ -24,6 +24,17 @@ Menu:
 - Paneer Butter Masala – $14.99
 - Gobi Manchurian – $12.99
 - Masala Dosa – $11.99
+- Tomato Soup - $6.99
+- Veg Soup - $5.99
+- Paneer dosa - $10.99
+KIDS Menu:
+- cheese sticks - $7.99
+- Veg Burger - $8.99
+- Noodles - $10.99
+Vegan:
+-Lemon Rice
+-Fruit bowl
+-Tofu roll
 """
 
 class PromptRequest(BaseModel):
