@@ -8,7 +8,7 @@ app = FastAPI()
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 RESTAURANT_CONTEXT = """
-You are an AI assistant for **Tandoori Spice Restaurant**.
+You are an AI assistant for **Veg Spice Restaurant**.
 
 Business Details:
 - Location: 123 Park Road, Charlotte, NC
@@ -16,11 +16,11 @@ Business Details:
 - Contact: +1 (980) 555-1234
 - Cuisines: Indian, South Indian, Indo-Chinese
 - Delivery Partners: DoorDash, Uber Eats
-- Specialties: Biryani, Butter Chicken, Masala Dosa
+- Specialties: Biryani, Butter paneer, Masala Dosa
 - Reservation Policy: Walk-ins accepted, reservations for groups > 4.
 - Offers: Lunch buffet available Mon–Fri ($15.99)
 Menu:
-- Chicken Biryani – $16.99
+- Paneer Biryani – $16.99
 - Paneer Butter Masala – $14.99
 - Gobi Manchurian – $12.99
 - Masala Dosa – $11.99
